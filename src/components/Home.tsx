@@ -1,11 +1,13 @@
 'use client';
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Petition } from "@/modeles/Petititon";
 import Card from "./Card";
+
 export default function Home() {
     const [petitions, setPetitions] = useState<Petition[]>([]);
-    
+
     useEffect(() => {
         setPetitions([
             {
@@ -27,16 +29,18 @@ export default function Home() {
                 CountSignature: 1000,
             },
         ]);
-    }
-    , []);
-    const cards = petitions.map((petition) => (
-        <Card petition={petition} key={petition.id} />
-    ));
+    }, []);
 
     return (
-    <div>
-        <h1>Home</h1>
-        {cards}
-    </div>
-  );
+        <div className="container">
+            <h1 className="title">Home</h1>
+            <div className="grid">
+                {petitions.map((petition) => (
+                    <Link key={petition.id} href={`/detail?id=${petition.id}`} className="card-link">
+                        <Card petition={petition} />
+                    </Link>
+                ))}
+            </div>
+        </div>
+    );
 }
