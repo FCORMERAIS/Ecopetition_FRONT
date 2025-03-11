@@ -8,7 +8,6 @@ export default function App() {
           <Home/>
       </main>
       <footer className={styles.footer}>
-       
       </footer>
     </div>
   );
