@@ -1,5 +1,7 @@
 import Home from "@/components/Home";
+import Footer from "@/components/Footer";
 import styles from "./page.module.css";
+
 
 export default function App() {
   return (
@@ -8,7 +10,7 @@ export default function App() {
           <Home/>
       </main>
       <footer className={styles.footer}>
-       
+          <Footer/>
       </footer>
     </div>
   );
