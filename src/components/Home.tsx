@@ -55,7 +55,7 @@ export default function Home() {
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>Petitions</h1>
+            <h1 className={styles.title}>Pétitions</h1>
             <input type="search" className={styles.search} placeholder="Search"/>
             <div className={styles.cards}>
                 {cards}
