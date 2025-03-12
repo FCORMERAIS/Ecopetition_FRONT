@@ -3,6 +3,8 @@
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from "react";
 import { Petition } from "@/modeles/Petititon";
+import styles from "@/styles/detail.module.css"
+
 
 export default function DetailPetition() {
     const searchParams = useSearchParams();
@@ -13,11 +15,14 @@ export default function DetailPetition() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        const petitionId = "4600";
+
         if (petitionId) {
             const fetchPetition = async () => {
                 try {
-                    const response = await fetch(` http://app-20ce8ab4-2f87-49c9-a647-2a5fbcdfacbc.cleverapps.io/api/petitions/${petitionId}`);
-                    if (!response.ok) throw new Error("Failed to fetch petition");
+                    // ✅ Utilisation du proxy Next.js
+                    const response = await fetch(`/api/petitions/${petitionId}`);
+                    if (!response.ok) throw new Error("Échec du chargement de la pétition");
                     
                     const data: Petition = await response.json();
                     setPetition(data);
@@ -39,10 +44,11 @@ export default function DetailPetition() {
     if (!petition) return <p>Aucune pétition trouvée.</p>;
 
     return (
-        <div>
-            <h1>Petition : {petition.title}</h1>
-            <p>description : {petition.description}</p>
-            <p><strong>Signatures :</strong> {petition.CountSignature}</p>
-        </div>
+        <div className={styles.petitionContainer}>
+            <h1 className={styles.petitionTitle}>{petition.titre}</h1>
+            <p className={styles.petitionDescription}>{petition.description}</p>
+            <p className={styles.petitionDescription}> Auteur : {petition.auteur}</p>            
+            <button className={styles.signButton}>Signer la pétition</button>
+        </div> 
     );
 }

@@ -1,6 +1,7 @@
 export type Petition = {
     id: number;
-    title: string;
+    titre: string;
     description: string;
-    CountSignature: number;
+    signature: number;
+    auteur : string;
 };
