@@ -16,7 +16,7 @@ export default function Card({ petition }: CardProps) {
 
     return (
         <div className={styles.card}>
-            <img src={petition.imageSrc} className={styles.cardImage} />
+            <img src={petition.image_url} className={styles.cardImage} />
             <h2 className={styles.cardTitle}>{petition.titre}</h2>
             <p className={styles.cardDescription}>{petition.description}</p>
             <p className={styles.auteur}>{petition.auteur}</p>            

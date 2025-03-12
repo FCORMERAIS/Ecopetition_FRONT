@@ -4,5 +4,5 @@ export type Petition = {
     description: string;
     signature: number;
     auteur : string;
-    imageSrc : string;
+    image_url : string;
 };
