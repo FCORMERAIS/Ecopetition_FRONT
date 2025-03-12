@@ -1,4 +1,3 @@
-// src/components/Publication.tsx
 
 'use client';
 
