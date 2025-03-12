@@ -41,6 +41,33 @@ export default function Signup() {
             return;
         }
         console.log('Inscription réussie avec:', formData);
+        const post = {
+            pseudo : formData.fullName,
+            mail : formData.email,
+            password : formData.password
+        }
+        console.log(post)
+        fetch('/api/user/register/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(post),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.ok) {
+                    console.log('Inscription réussie:', data);
+                    // Redirect or show success message
+                } else {
+                    console.error('Erreur lors de l\'inscription:', data.message);
+                    // Show error message
+                }
+            })
+            .catch((error) => {
+                console.error('Erreur réseau:', error);
+                // Show network error message
+            });
     };
 
     return (
