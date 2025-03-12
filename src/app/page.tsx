@@ -7,7 +7,7 @@ import { useState } from "react";
 
 
 export default function App() {
-  
+
   const changePage = (page: string) => {
     if (page === "home") {
       setPage(<Home setPage={changePage}/>);
@@ -15,9 +15,6 @@ export default function App() {
   }
 
   const [Page, setPage] = useState(<Home setPage={changePage}/>);
-
-
-
 
   return (
     <div className={styles.page}>
