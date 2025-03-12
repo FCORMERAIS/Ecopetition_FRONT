@@ -97,7 +97,18 @@ export default function DetailPetition() {
 
             {/* Section des commentaires */}
             <div className={styles.commentsSection}>
-                <h2 className={styles.commentsTitle}>Commentaires</h2>
+                {/* Formulaire pour ajouter un commentaire */}
+                <div className={styles.commentForm}>
+                    <textarea
+                        className={styles.commentInput}
+                        value={newComment}
+                        onChange={(e) => setNewComment(e.target.value)}
+                        placeholder="Écrivez un commentaire..."
+                    />
+                    <button className={styles.commentButton} onClick={handlePostComment}>Envoyer</button>
+                </div>
+
+                <h2 className={styles.commentsTitle} style={{ marginTop: "20px" }}>Commentaires</h2>
                 {comments.length === 0 ? (
                     <p>Aucun commentaire pour l'instant.</p>
                 ) : (
@@ -111,16 +122,7 @@ export default function DetailPetition() {
                     </ul>
                 )}
 
-                {/* Formulaire pour ajouter un commentaire */}
-                <div className={styles.commentForm}>
-                    <textarea
-                        className={styles.commentInput}
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                        placeholder="Écrivez un commentaire..."
-                    />
-                    <button className={styles.commentButton} onClick={handlePostComment}>Envoyer</button>
-                </div>
+
             </div>
         </div> 
     );

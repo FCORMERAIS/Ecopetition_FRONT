@@ -1,46 +1,111 @@
 .petitionContainer {
-    max-width: 600px;
+    max-width: 900px;
     margin: 40px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(5, 64, 151, 0.1);
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    font-family: 'Lato', sans-serif;
 }
 
-
 .petitionTitle {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: bold;
+    color: #2C5E1A;
     margin-bottom: 10px;
-    color: #333;
 }
 
 .petitionDescription {
-    font-size: 16px;
-    color: #555;
+    font-size: 18px;
+    color: #444;
     line-height: 1.5;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
-.petitionSignatures {
-    font-size: 18px;
+.petitionInfo {
+    font-size: 16px;
     font-weight: bold;
-    color: #008000;
-    margin-bottom: 20px;
+    color: #2C5E1A;
+    margin: 10px 0;
 }
 
 .signButton {
-    background: #007bff;
+    background: #55B76B;
     color: white;
-    font-size: 16px;
-    padding: 12px 20px;
+    font-size: 18px;
+    padding: 8px 25px;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
     transition: background 0.3s ease;
+    font-weight: bold;
 }
 
 .signButton:hover {
-    background: #0056b3;
+    background: #55B76B;
+}
+
+.commentsSection {
+    margin-top: 30px;
+    padding: 20px;
+    background: #F9FFF6;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.commentInput {
+    width: 100%;
+    min-height: 70px;
+    padding: 12px;
+    border: 2px solid #55B76B;
+    border-radius: 8px;
+    background: white;
+    font-size: 16px;
+    resize: vertical;
+    outline: none;
+    transition: border 0.3s ease-in-out;
+}
+
+.commentInput:focus {
+    border-color: #55B76B;
+    box-shadow: 0 0 6px rgba(76, 175, 80, 0.5);
+}
+
+.commentButton {
+    margin-top: 12px;
+    padding: 7px 20px;
+    background-color: #55B76B;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-weight: bold;
+    width: 24%;
+}
+
+.commentButton:hover {
+    background-color: #388E3C;
+}
+
+.commentList {
+    list-style-type: none;
+    padding: 0;
+}
+
+.commentItem {
+    background: white;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    text-align: left;
+    border-left: 5px solid #55B76B;
+}
+
+.commentText {
+    font-size: 16px;
+    color: #333;
 }
