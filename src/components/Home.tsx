@@ -52,7 +52,7 @@ export default function Home() {
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>Pétitions</h1>
-            <h3 className={styles.subtitle}>Mobiliser les pétitions et faire avancer les causes écologiques</h3>
+            <h3 className={styles.subtitle}>Mobiliser les citoyens et faire avancer les causes écologiques</h3>
             <div className={styles.searchContainer}>
                 <input type="search" className={styles.search} placeholder="Search" />
                 <button className={styles.searchButton} onClick={handleSearch}>Search</button>
