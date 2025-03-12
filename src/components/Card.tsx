@@ -4,6 +4,7 @@ import styles from "../styles/card.module.css";
 
 interface CardProps {
     petition : Petition;
+    setPage : (page: string) => void;
 } 
 
 export default function Card({petition}: CardProps) {
