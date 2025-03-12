@@ -25,9 +25,6 @@ export default function App() {
       <main className={styles.main}>
           {Page}
       </main>
-      <footer className={styles.footer}>
-          <Footer/>
-      </footer>
     </div>
   );
 }
