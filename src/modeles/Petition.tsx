@@ -1,7 +1,8 @@
 export type Petition = {
     id: number;
-    title: string;
+    titre: string;
     description: string;
-    countSignature: number;
-    imageSrc: string;
+    signature: number;
+    auteur : string;
+    imageSrc : string;
 };
