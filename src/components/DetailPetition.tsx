@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from "react";
-import { Petition } from "@/modeles/Petititon";
+import { Petition } from "@/modeles/Petition";
 import styles from "@/styles/detail.module.css"
 
 
