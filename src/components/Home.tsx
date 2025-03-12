@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { Petition } from "@/modeles/Petititon";
+import { Petition } from "@/modeles/Petition";
 import Card from "./Card";
 export default function Home() {
     const [petitions, setPetitions] = useState<Petition[]>([]);
