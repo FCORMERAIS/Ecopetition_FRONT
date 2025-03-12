@@ -45,7 +45,7 @@ export default function Home({setPage}: HomeProps) {
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>Pétitions</h1>
-            <h3 className={styles.subtitle}>Mobiliser les pétitions et faire avancer les causes écologiques</h3>
+            <h3 className={styles.subtitle}>Mobiliser les citoyens et faire avancer les causes écologiques</h3>
             <input type="search" className={styles.search} placeholder="Search"/>
             <div className={styles.cards}>
                 {cards}
