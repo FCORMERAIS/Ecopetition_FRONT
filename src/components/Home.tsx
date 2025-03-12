@@ -17,13 +17,13 @@ export default function Home({setPage}: HomeProps) {
         const fetchPetitions = async () => {
             const newPetitions = [];
             for (let i = 0; i < 20; i++) {
-                const response = await fetch("https://api.chucknorris.io/jokes/random");
+                const response = await fetch("api/petitions/4600");
                 const data = await response.json();
                 newPetitions.push({
                     id: i,
-                    titre: "test" + i,
+                    titre: data.titre,
                     auteur : "Flavio",
-                    description: data.value,
+                    description: data.description,
                     signature: 0,
                     imageSrc: "https://i.ytimg.com/vi/7KaZ-y7e9BQ/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLD1rmpa1Juknv2ejLHrMwnx06b3SQ"
                 });
