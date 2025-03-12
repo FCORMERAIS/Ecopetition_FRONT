@@ -7,15 +7,16 @@ import { useState } from "react";
 
 
 export default function App() {
-
-  const [Page, setPage] = useState(<Home/>);
-
-
+  
   const changePage = (page: string) => {
     if (page === "home") {
-      return <Home/>
+      setPage(<Home setPage={changePage}/>);
     }
   }
+
+  const [Page, setPage] = useState(<Home setPage={changePage}/>);
+
+
 
 
   return (
