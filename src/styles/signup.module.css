@@ -1,0 +1,112 @@
+/* src/styles/signup.module.css */
+
+.page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #55B76B;
+    font-family: 'Lato', sans-serif;
+}
+
+.card {
+    width: 400px;
+    background: #FFFFFF;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border: 2px solid #4CAF50;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.title {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #2C5E1A;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    text-align: left;
+    position: relative;
+}
+
+.inputGroup label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #2C5E1A;
+}
+
+.inputGroup input {
+    padding: 10px;
+    border: 1px solid #8BC34A;
+    border-radius: 5px;
+    background: #F9FFF6;
+    font-family: 'Lato', sans-serif;
+}
+
+.passwordWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.passwordWrapper input {
+    flex: 1;
+    padding-right: 35px;
+}
+
+.eyeIcon {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: #2C5E1A;
+    transition: color 0.3s;
+}
+
+.eyeIcon:hover {
+    color: #4CAF50;
+}
+
+.button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-weight: bold;
+    font-family: 'Lato', sans-serif;
+}
+
+.button:hover {
+    background-color: #388E3C;
+}
+
+.links {
+    margin-top: 15px;
+}
+
+.links a {
+    display: block;
+    color: #4CAF50;
+    text-decoration: none;
+    margin-top: 5px;
+    font-weight: bold;
+    font-family: 'Lato', sans-serif;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { Petition } from "@/modeles/Petititon";
+import { Petition } from "@/modeles/Petition";
 import Card from "./Card";
 import styles from "../styles/home.module.css";
 export default function Home() {

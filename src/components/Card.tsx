@@ -1,4 +1,4 @@
-import { Petition } from "@/modeles/Petititon";
+import { Petition } from "@/modeles/Petition";
 import React from "react";
 import styles from "../styles/card.module.css";
 
