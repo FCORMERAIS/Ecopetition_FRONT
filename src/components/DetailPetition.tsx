@@ -6,7 +6,7 @@ import { Petition } from "@/modeles/Petititon";
 
 export default function DetailPetition() {
     const searchParams = useSearchParams();
-    const petitionId = searchParams.get('id'); // Récupère l'ID de la pétition dans l'URL
+    const petitionId = searchParams.get('id');
 
     const [petition, setPetition] = useState<Petition | null>(null);
     const [loading, setLoading] = useState(true);
@@ -16,7 +16,7 @@ export default function DetailPetition() {
         if (petitionId) {
             const fetchPetition = async () => {
                 try {
-                    const response = await fetch(`/api/petitions/${petitionId}`);
+                    const response = await fetch(` http://app-20ce8ab4-2f87-49c9-a647-2a5fbcdfacbc.cleverapps.io/api/petitions/${petitionId}`);
                     if (!response.ok) throw new Error("Failed to fetch petition");
                     
                     const data: Petition = await response.json();
@@ -40,8 +40,8 @@ export default function DetailPetition() {
 
     return (
         <div>
-            <h1>{petition.title}</h1>
-            <p>{petition.description}</p>
+            <h1>Petition : {petition.title}</h1>
+            <p>description : {petition.description}</p>
             <p><strong>Signatures :</strong> {petition.CountSignature}</p>
         </div>
     );
