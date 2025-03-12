@@ -1,0 +1,97 @@
+.aboutContainer {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 48px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+}
+
+
+.title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #2C5E1A;
+    margin-bottom: 20px;
+}
+
+
+.description {
+    font-size: 18px;
+    color: #444;
+    line-height: 1.8;
+    margin-bottom: 25px;
+    text-align: justify;
+}
+
+
+.subtitle {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 30px;
+    color: #2C5E1A;
+}
+
+.text {
+    font-size: 17px;
+    color: #333;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+.link {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.formContainer {
+    margin-top: 40px;
+    padding: 20px;
+    background: #F9FFF6;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.inputField {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #8BC34A;
+    border-radius: 5px;
+    background: white;
+    font-size: 16px;
+    outline: none;
+    transition: border 0.3s ease-in-out;
+}
+
+.inputField:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 6px rgba(76, 175, 80, 0.5);
+}
+
+.submitButton {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.submitButton:hover {
+    background-color: #388E3C;
+}
