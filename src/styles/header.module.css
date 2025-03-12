@@ -1,0 +1,35 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background-color: white;
+    color: black;
+    font-family: 'Lato', sans-serif;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    height: 60px;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+.profile {
+    margin-right: 20px;
+}
+
+.profilePic {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+}
+
