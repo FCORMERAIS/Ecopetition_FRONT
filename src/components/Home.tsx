@@ -37,7 +37,7 @@ export default function Home({setPage}: HomeProps) {
     
     const cards = petitions.map((petition) => (
         <div key={petition.id} className={styles.card}>
-            <Card petition={petition} setPage={setPage}/>
+            <Card petition={petition} />
         </div>
     ));
     

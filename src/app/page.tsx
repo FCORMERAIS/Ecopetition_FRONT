@@ -3,7 +3,6 @@
 import Home from "@/components/Home";
 import Footer from "@/components/Footer";
 import styles from "./page.module.css";
-import DetailPetition from "@/components/DetailPetition";
 import { useState } from "react";
 
 
@@ -16,9 +15,9 @@ export default function App() {
     }
   }
 
+
+
   const [Page, setPage] = useState(<Home setPage={changePage}/>);
-
-
 
 
   return (

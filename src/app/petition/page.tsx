@@ -5,8 +5,11 @@ import { useEffect, useState } from "react";
 import { Petition } from "@/modeles/Petition";
 import styles from "@/styles/detail.module.css"
 
+interface DetailProps {
+    setPage : (page: string) => void;
+} 
 
-export default function DetailPetition() {
+export default function DetailPetition({setPage}: DetailProps) {
     const searchParams = useSearchParams();
     const petitionId = searchParams.get('id');
 
@@ -15,12 +18,12 @@ export default function DetailPetition() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const petitionId = "4600";
+
+        console.log(petitionId)
 
         if (petitionId) {
             const fetchPetition = async () => {
                 try {
-                    // ✅ Utilisation du proxy Next.js
                     const response = await fetch(`/api/petitions/${petitionId}`);
                     if (!response.ok) throw new Error("Échec du chargement de la pétition");
                     
