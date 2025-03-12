@@ -23,7 +23,7 @@ export default function Login() {
         setMessage("");
 
         try {
-            const response = await fetch("https://app-20ce8ab4-2f87-49c9-a647-2a5fbcdfacbc.cleverapps.io/api/user/login", {
+            const response = await fetch("/api/user/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
