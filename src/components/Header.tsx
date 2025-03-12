@@ -1,15 +1,35 @@
-import Image from 'next/image';
-import profilePic from '../asset/profile.png'; // Import direct
-import styles from '../styles/header.module.css';
+"use client";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import styles from "../styles/header.module.css";
 
 export default function Header() {
+    const pathname = usePathname();
+    const [isAuthenticated] = useState(false);
+
+    if (pathname === "/login" || pathname === "/signup") {
+        return (
+            <header className={styles.header}>
+                <div className={styles.logo}>EcoPetition</div>
+            </header>
+        );
+    }
+
     return (
         <header className={styles.header}>
             <div className={styles.logo}>EcoPetition</div>
-            <div className={styles.profile}>
-                <Image src={profilePic} alt="Profile"  className={styles.profilePic}
-                />
-            </div>
+
+            {!isAuthenticated ? (
+                <nav className={styles.nav}>
+                    <Link href="/login" className={styles.btn}>Connexion</Link>
+                    <Link href="/signup" className={styles.btn}>Inscription</Link>
+                </nav>
+            ) : (
+                <nav className={styles.nav}>
+                    <Link href="/publication" className={styles.btn}>Publier</Link>
+                </nav>
+            )}
         </header>
     );
 }
