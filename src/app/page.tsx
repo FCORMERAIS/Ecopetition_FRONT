@@ -43,7 +43,6 @@ export default function Home({setPage}: HomeProps) {
         </div>
     ));
     
-
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>Pétitions</h1>
@@ -53,5 +52,6 @@ export default function Home({setPage}: HomeProps) {
                 {cards}
             </div>
         </div>
+
   );
 }
