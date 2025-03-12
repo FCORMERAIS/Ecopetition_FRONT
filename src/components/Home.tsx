@@ -21,9 +21,10 @@ export default function Home({setPage}: HomeProps) {
                 const data = await response.json();
                 newPetitions.push({
                     id: i,
-                    title: "test" + i,
+                    titre: "test" + i,
+                    auteur : "Flavio",
                     description: data.value,
-                    countSignature: 0,
+                    signature: 0,
                     imageSrc: "https://i.ytimg.com/vi/7KaZ-y7e9BQ/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLD1rmpa1Juknv2ejLHrMwnx06b3SQ"
                 });
             }
