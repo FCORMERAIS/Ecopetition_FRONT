@@ -11,21 +11,22 @@ export default function Home() {
 
     useEffect(() => {
         const fetchPetitions = async () => {
-            const newPetitions = [];
-            for (let i = 0; i < 6; i++) {
-                const response = await fetch("api/petitions/1");
+            const newPetitions: Petition[] = [];
+                const response = await fetch("api/petitions/list/paginated?page=1");
                 if (response.ok) {
                     const data = await response.json();
-                    newPetitions.push({
-                        id: i,
-                        titre: data.titre,
-                        auteur : data.auteur,
-                        description: data.description,
-                        signature: 0,
-                        imageSrc: "https://i.ytimg.com/vi/7KaZ-y7e9BQ/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLD1rmpa1Juknv2ejLHrMwnx06b3SQ"
-                    });
+                    data.results.forEach((petition : Petition) => {
+                        newPetitions.push({
+                            id: petition.id,
+                            titre: petition.titre,
+                            auteur : petition.auteur,
+                            description: petition.description,
+                            signature: 0,
+                            imageSrc: "https://i.ytimg.com/vi/7KaZ-y7e9BQ/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLD1rmpa1Juknv2ejLHrMwnx06b3SQ"
+
+                        })})
                 }
-            }
+            
             setPetitions(newPetitions);
         };
 
