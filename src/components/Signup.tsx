@@ -18,6 +18,9 @@ export default function Signup() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+    const [passwordError, setPasswordError] = useState("");
+
+
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
@@ -32,6 +35,10 @@ export default function Signup() {
             ...prev,
             [name]: value,
         }));
+
+        if (name === "password") {
+            validatePassword(value);
+        }
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -70,6 +77,15 @@ export default function Signup() {
             });
     };
 
+    const validatePassword = (password: string) => {
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+        if (!passwordRegex.test(password)) {
+            setPasswordError("Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un symbole.");
+        } else {
+            setPasswordError("");
+        }
+    };
+
     return (
         <div className={styles.page}>
             <div className={styles.card}>
@@ -99,7 +115,7 @@ export default function Signup() {
                     </div>
                     <div className={styles.inputGroup}>
                         <label htmlFor="password">Mot de passe</label>
-                        <div className={styles.passwordWrapper}>
+                        <div className={styles.inputGroup}>
                             <input
                                 type={showPassword ? "text" : "password"}
                                 id="password"
@@ -108,6 +124,7 @@ export default function Signup() {
                                 onChange={handleChange}
                                 required
                             />
+                            {passwordError && <p className={styles.error}>{passwordError}</p>}
                             <span className={styles.eyeIcon} onClick={togglePasswordVisibility}>
                                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                             </span>
