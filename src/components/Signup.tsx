@@ -7,7 +7,6 @@ import styles from '../styles/signup.module.css';
 import Link from 'next/link';
 import { Eye, EyeOff } from 'lucide-react';
 import backgroundImage from "@/assets/ecopetition.jpeg";
-import { useRouter } from 'next/router';
 
 export default function Signup() {
     const [formData, setFormData] = useState({
@@ -19,7 +18,6 @@ export default function Signup() {
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const router = useRouter();
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -37,39 +35,19 @@ export default function Signup() {
         }));
     };
 
-    const connexion = async () => {
-        
-        const fullname = formData.fullName;
-        const password = formData.password;
-        const response = await fetch("/api/user/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ fullname, password }),
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            localStorage.setItem("access_token", data.access_token);
-            // 🔥 Envoi d'un événement personnalisé pour notifier le Header
-            window.dispatchEvent(new Event("authChange"));
-            router.push("/"); // Redirige vers l'accueil
-        }
-    }
-
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
             alert("Les mots de passe ne correspondent pas");
             return;
         }
+        console.log('Inscription réussie avec:', formData);
         const post = {
             pseudo : formData.fullName,
             mail : formData.email,
             password : formData.password
         }
+        console.log(post)
         fetch('/api/user/register/', {
             method: 'POST',
             headers: {
@@ -81,13 +59,10 @@ export default function Signup() {
             .then((data) => {
                 if (data.ok) {
                     console.log('Inscription réussie:', data);
+                    // Redirect or show success message
                 } else {
                     console.error('Erreur lors de l\'inscription:', data.message);
-                    if (data.message === "Compte créé avec succès") {
-
-                        
-                        connexion();
-                    }
+                    // Show error message
                 }
             })
             .catch((error) => {

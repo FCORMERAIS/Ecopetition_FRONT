@@ -6,12 +6,10 @@ import { Petition } from "@/modeles/Petition";
 import styles from "../styles/detail.module.css";
 import { getUserIdFromToken } from "./Auth";
 import { Comment } from "@/modeles/Comment";
-import { useRouter } from 'next/router';
 
 export default function DetailPetition() {
     const [userId, setUserId] = useState<number | null>(null);
     const [signaturesCount, setSignaturesCount] = useState<number | null>(null);
-    const router = useRouter();
 
     useEffect(() => {
         const id = getUserIdFromToken();
@@ -146,7 +144,7 @@ export default function DetailPetition() {
         if (!newComment.trim()) return;
         const jwt = localStorage.getItem("access_token");
         if (!jwt) {
-            router.push("/login");
+            window.location.href = "/login";
         }else{
             try {
                 const response = await fetch(`/api/messagerie/create/`, {
@@ -176,7 +174,7 @@ export default function DetailPetition() {
         if (!petitionId || isSigning) return;
         const token = localStorage.getItem("access_token");
         if (!token) {
-            router.push("/login");
+            window.location.href = "/login";
         }else{
             setIsSigning(true);
             try {
