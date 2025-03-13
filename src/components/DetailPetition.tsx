@@ -5,19 +5,16 @@ import { useEffect, useState } from "react";
 import { Petition } from "@/modeles/Petition";
 import styles from "../styles/detail.module.css";
 import { getUserIdFromToken } from "./Auth";
+import { Comment } from "@/modeles/Comment";
 
 export default function DetailPetition() {
-    const searchParams = useSearchParams();
-    const petitionId = searchParams.get('id');
     const [userId, setUserId] = useState<number | null>(null);
 
     useEffect(() => {
         const id = getUserIdFromToken();
         setUserId(id);
     }, []);
-import { Comment } from "@/modeles/Comment";
 
-export default function DetailPetition() {
 
     const searchParams = useSearchParams();
     let petitionId : string | null = ""
@@ -183,3 +180,4 @@ export default function DetailPetition() {
         </div> 
     );
 }
+
