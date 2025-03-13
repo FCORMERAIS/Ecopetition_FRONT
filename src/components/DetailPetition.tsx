@@ -85,7 +85,7 @@ export default function DetailPetition() {
     useEffect(() => {
         if (petitionId) {
             const token = localStorage.getItem("access_token");
-
+            if (token) {
             const fetchSignaturesCount = async () => {
                 try {
                     const response = await fetch(`/api/petitions/${petitionId}/sign_count`, {
@@ -103,15 +103,19 @@ export default function DetailPetition() {
             };
     
             fetchSignaturesCount();
+        }else{
+            setSignaturesCount(0);
+        }
         }
     }, [petitionId, hasSigned]); // Met à jour après signature/désinscription
 
     // Récupération des commentaires associés à la pétition
     useEffect(() => {
         if (petitionId) {
+            const jwt = localStorage.getItem("access_token");
+            if (jwt) {
             const fetchComments = async () => {
                 try {
-                    const jwt = localStorage.getItem("access_token");
                     const response = await fetch(`/api/petitions/${petitionId}/comments`, {
                         method: "GET",
                         headers: {
@@ -128,62 +132,68 @@ export default function DetailPetition() {
                     console.error("Erreur lors de la récupération des commentaires:", err);
                 }
             };
-
             fetchComments();
+            }else{
+                setComments([]);
+            }
         }
     }, [petitionId]);
-
 
     // Fonction pour poster un commentaire
     const handlePostComment = async () => {
         if (!newComment.trim()) return;
+        const jwt = localStorage.getItem("access_token");
+        if (!jwt) {
+            window.location.href = "/login";
+        }else{
+            try {
+                const response = await fetch(`/api/messagerie/create/`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json",
+                                "Authorization": `Bearer ${jwt}` },
+                    body: JSON.stringify({ petition_id : petitionId ,message: newComment, }),
+                });
 
-        try {
-            const jwt = localStorage.getItem("access_token");
-            const response = await fetch(`/api/messagerie/create/`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json",
-                            "Authorization": `Bearer ${jwt}` },
-                body: JSON.stringify({ petition_id : petitionId ,message: newComment, }),
-            });
+                if (!response.ok) throw new Error("Échec de l'ajout du commentaire");
 
-            if (!response.ok) throw new Error("Échec de l'ajout du commentaire");
-
-            const addedComment: Comment = await response.json();
-            setComments(prev => [...prev, addedComment]);
-            setNewComment("");
-        } catch (err) {
-            console.error("Erreur lors de l'ajout du commentaire:", err);
+                const addedComment: Comment = await response.json();
+                setComments(prev => [...prev, addedComment]);
+                setNewComment("");
+            } catch (err) {
+                console.error("Erreur lors de l'ajout du commentaire:", err);
+            }
         }
     };
 
     // Fonction pour signer la pétition
     const handleSignPetition = async () => {
         if (!petitionId || isSigning) return;
+        const token = localStorage.getItem("access_token");
+        if (!token) {
+            window.location.href = "/login";
+        }else{
+            setIsSigning(true);
+            try {
+                if (hasUserSigned == false){
+                    const response = await fetch(`/api/petitions/${petitionId}/sign`, {
+                        method: "POST", 
+                        headers: { "Content-Type": "application/json","Authorization": `Bearer ${token}`},
+                        body: JSON.stringify({ user_id: userId }),
+                    });
 
-        setIsSigning(true);
+                    if (!response.ok) throw new Error(hasSigned ? "Échec de la suppression de la signature" : "Échec de la signature");
 
-        try {
-            const token = localStorage.getItem("access_token");
-            if (hasUserSigned == false){
-                const response = await fetch(`/api/petitions/${petitionId}/sign`, {
-                    method: "POST", 
-                    headers: { "Content-Type": "application/json","Authorization": `Bearer ${token}`},
-                    body: JSON.stringify({ user_id: userId }),
-                });
-
-                if (!response.ok) throw new Error(hasSigned ? "Échec de la suppression de la signature" : "Échec de la signature");
-
-                // Mise à jour de l'état
-                setHasSigned(!hasSigned);
-                setPetition(prev => prev ? { ...prev, signature: prev.signature + (hasSigned ? -1 : 1) } : prev);
-                window.location.reload();
+                    // Mise à jour de l'état
+                    setHasSigned(!hasSigned);
+                    setPetition(prev => prev ? { ...prev, signature: prev.signature + (hasSigned ? -1 : 1) } : prev);
+                    window.location.reload();
+                }
+            } catch (err) {
+                console.error("Erreur lors de la gestion de la signature:", err);
+            } finally {
+                setIsSigning(false);
             }
-        } catch (err) {
-            console.error("Erreur lors de la gestion de la signature:", err);
-        } finally {
-            setIsSigning(false);
-        }
+    }
     };
 
     if (loading) return <p>Chargement...</p>;
