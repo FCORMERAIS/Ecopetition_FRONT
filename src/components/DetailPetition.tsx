@@ -156,7 +156,11 @@ export default function DetailPetition() {
 
                 if (!response.ok) throw new Error("Échec de l'ajout du commentaire");
 
-                const addedComment: Comment = await response.json();
+                const com = await response.json();
+                console.log(com)
+                const addedComment : Comment = com.messagerie;
+
+                console.log(addedComment)
                 setComments(prev => [...prev, addedComment]);
                 setNewComment("");
             } catch (err) {
