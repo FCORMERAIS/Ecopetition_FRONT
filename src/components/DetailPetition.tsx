@@ -17,6 +17,7 @@ export default function DetailPetition() {
     const searchParams = useSearchParams();
     const petitionId = searchParams.get('id');
     const [userId, setUserId] = useState<number | null>(null);
+    const [signaturesCount, setSignaturesCount] = useState<number | null>(null);
 
     useEffect(() => {
         const id = getUserIdFromToken();
@@ -52,6 +53,24 @@ export default function DetailPetition() {
             setLoading(false);
         }
     }, [petitionId]);
+
+    useEffect(() => {
+        if (petitionId) {
+            const fetchSignaturesCount = async () => {
+                try {
+                    const response = await fetch(`/api/petitions/${petitionId}/sign_count`);
+                    if (!response.ok) throw new Error("Échec de la récupération du nombre de signatures");
+    
+                    const data = await response.json();
+                    setSignaturesCount(data.count); // Assurez-vous que l'API retourne { count: X }
+                } catch (err) {
+                    console.error("Erreur lors de la récupération du nombre de signatures:", err);
+                }
+            };
+    
+            fetchSignaturesCount();
+        }
+    }, [petitionId, hasSigned]); // Met à jour après signature/désinscription
 
     // Récupération des commentaires associés à la pétition
     useEffect(() => {
@@ -101,7 +120,7 @@ export default function DetailPetition() {
 
         try {
             const response = await fetch(`/api/petitions/${petitionId}/sign`, {
-                method: hasSigned ? "DELETE" : "POST", 
+                method: "POST", 
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ user_id: userId }),
             });
@@ -127,14 +146,15 @@ export default function DetailPetition() {
             <h1 className={styles.petitionTitle}>{petition.titre}</h1>
             <p className={styles.petitionDescription}>{petition.description}</p>
             <p className={styles.petitionDescription}> Auteur : {petition.auteur}</p>            
-            <p className={styles.petitionDescription}> Nombre de signatures : {petition.signature}</p>            
+            <p className={styles.petitionDescription}> Nombre de signatures : {signaturesCount}</p>            
             <button 
                 className={styles.signButton} 
                 onClick={handleSignPetition} 
                 disabled={isSigning}
             >
-                {isSigning ? "Traitement..." : hasSigned ? "Retirer ma signature" : "Signer la pétition"}
+                {"Signer la pétition"}
             </button>
+
             {/* Section des commentaires */}
             <div className={styles.commentsSection}>
                 <h2 className={styles.commentsTitle}>Commentaires</h2>
