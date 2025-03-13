@@ -4,6 +4,17 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from "react";
 import { Petition } from "@/modeles/Petition";
 import styles from "../styles/detail.module.css";
+import { getUserIdFromToken } from "./Auth";
+
+export default function DetailPetition() {
+    const searchParams = useSearchParams();
+    const petitionId = searchParams.get('id');
+    const [userId, setUserId] = useState<number | null>(null);
+
+    useEffect(() => {
+        const id = getUserIdFromToken();
+        setUserId(id);
+    }, []);
 import { Comment } from "@/modeles/Comment";
 
 export default function DetailPetition() {
@@ -16,7 +27,9 @@ export default function DetailPetition() {
     const [error, setError] = useState<string | null>(null);
     const [comments, setComments] = useState<Comment[]>([]);
     const [newComment, setNewComment] = useState("");
-
+    const [isSigning, setIsSigning] = useState(false);
+    const [hasSigned, setHasSigned] = useState(false);
+    
     // Récupération des données de la pétition
     useEffect(() => {
         petitionId = searchParams.get('id');
@@ -75,6 +88,7 @@ export default function DetailPetition() {
         }
     }, [petitionId]);
 
+
     // Fonction pour poster un commentaire
     const handlePostComment = async () => {
         if (!newComment.trim()) return;
@@ -97,6 +111,31 @@ export default function DetailPetition() {
         }
     };
 
+    // Fonction pour signer la pétition
+    const handleSignPetition = async () => {
+        if (!petitionId || isSigning) return;
+
+        setIsSigning(true);
+
+        try {
+            const response = await fetch(`/api/petitions/${petitionId}/sign`, {
+                method: hasSigned ? "DELETE" : "POST", 
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ user_id: userId }),
+            });
+
+            if (!response.ok) throw new Error(hasSigned ? "Échec de la suppression de la signature" : "Échec de la signature");
+
+            // Mise à jour de l'état
+            setHasSigned(!hasSigned);
+            setPetition(prev => prev ? { ...prev, signature: prev.signature + (hasSigned ? -1 : 1) } : prev);
+        } catch (err) {
+            console.error("Erreur lors de la gestion de la signature:", err);
+        } finally {
+            setIsSigning(false);
+        }
+    };
+
     if (loading) return <p>Chargement...</p>;
     if (error) return <p style={{ color: "red" }}>{error}</p>;
     if (!petition) return <p>Aucune pétition trouvée.</p>;
@@ -107,8 +146,13 @@ export default function DetailPetition() {
             <p className={styles.petitionDescription}>{petition.description}</p>
             <p className={styles.petitionDescription}> Auteur : {petition.auteur}</p>            
             <p className={styles.petitionDescription}> Nombre de signatures : {petition.signature}</p>            
-            <button className={styles.signButton}>Signer la pétition</button>
-
+            <button 
+                className={styles.signButton} 
+                onClick={handleSignPetition} 
+                disabled={isSigning}
+            >
+                {isSigning ? "Traitement..." : hasSigned ? "Retirer ma signature" : "Signer la pétition"}
+            </button>
             {/* Section des commentaires */}
             <div className={styles.commentsSection}>
                 <h2 className={styles.commentsTitle}>Commentaires</h2>
