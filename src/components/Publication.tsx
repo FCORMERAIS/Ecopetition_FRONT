@@ -12,12 +12,11 @@ export default function Publication() {
         description: ''
     });
 
-    const jwt = localStorage.getItem("access_token");
     const userId = getUserIdFromToken();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        console.log("change")
+        
         setFormData((prev) => ({
             ...prev,
             [name]: value,
@@ -26,7 +25,8 @@ export default function Publication() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Publication:', formData);    
+        const jwt = localStorage.getItem("access_token");
+
         try {
             const response = await fetch(`/api/petitions/create`, {
                 method: "POST",
