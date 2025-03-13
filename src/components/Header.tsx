@@ -70,7 +70,7 @@ export default function Header() {
             ) : (
                 <nav className={styles.nav}>
                     <Link href="/publication" className={styles.btn}>Créer une Petition</Link>
-                    <button onClick={handleLogout} className={styles.btn}>Se déconnecter</button>
+                    <Link href="/" onClick={handleLogout} className={styles.btn}>Se déconnecter</Link>
                 </nav>
             )}
         </header>
