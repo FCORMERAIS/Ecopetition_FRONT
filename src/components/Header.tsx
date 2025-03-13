@@ -71,7 +71,8 @@ export default function Header() {
                 </nav>
             ) : (
                 <nav className={styles.nav}>
-                    <button onClick={handleLogout} className={styles.btn}>Se déconnecter</button>
+                    <Link href="/publication" className={styles.btn}>Créer une Petition</Link>
+                    <Link href="/" onClick={handleLogout} className={styles.btn}>Se déconnecter</Link>
                 </nav>
             )}
         </header>
