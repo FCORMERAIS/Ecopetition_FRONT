@@ -33,11 +33,20 @@ export default function Home() {
 
     const handleSearch = async () => {
         const searchInput = (document.querySelector(`.${styles.search}`) as HTMLInputElement).value;
-        const newPetitions = [];
+        const newPetitions :Petition[] = [];
         const response = await fetch("api/petitions/search/" + searchInput);
         if (response.ok) {
             const data = await response.json();
-            console.log(data);
+            data.forEach((petition : Petition) => {
+                newPetitions.push({
+                    id: petition.id,
+                    titre: petition.titre,
+                    auteur : petition.auteur,
+                    description: petition.description,
+                    signature: 0,
+                    image_url: petition.image_url
+                })})
+            setPetitions(newPetitions);
         }
     }
         
