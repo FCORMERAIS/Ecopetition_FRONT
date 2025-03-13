@@ -6,13 +6,6 @@ import { Petition } from "@/modeles/Petition";
 import styles from "../styles/detail.module.css";
 import { getUserIdFromToken } from "./Auth";
 
-interface Comment {
-    id: number;
-    auteur: string;
-    message: string;
-    date: string;
-}
-
 export default function DetailPetition() {
     const searchParams = useSearchParams();
     const petitionId = searchParams.get('id');
@@ -22,7 +15,13 @@ export default function DetailPetition() {
         const id = getUserIdFromToken();
         setUserId(id);
     }, []);
+import { Comment } from "@/modeles/Comment";
 
+export default function DetailPetition() {
+
+    const searchParams = useSearchParams();
+    let petitionId : string | null = ""
+    const jwt = localStorage.getItem("access_token");
     const [petition, setPetition] = useState<Petition | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -33,13 +32,23 @@ export default function DetailPetition() {
     
     // Récupération des données de la pétition
     useEffect(() => {
+        petitionId = searchParams.get('id');
+        console.log(petitionId)
         if (petitionId) {
             const fetchPetition = async () => {
                 try {
                     const response = await fetch(`/api/petitions/${petitionId}`);
                     if (!response.ok) throw new Error("Échec du chargement de la pétition");
-                    const data: Petition = await response.json();
-                    setPetition(data);
+                    const data = await response.json();
+                    const petition : Petition = {
+                        id: data.id,
+                        titre: data.titre,
+                        description: data.description,
+                        auteur: data.user.pseudo,
+                        signature: /*data.signature*/ 0,
+                        image_url: data.image_url
+                    }
+                    setPetition(petition);
                 } catch (err) {
                     setError("Impossible de récupérer la pétition.");
                 } finally {
@@ -58,7 +67,15 @@ export default function DetailPetition() {
         if (petitionId) {
             const fetchComments = async () => {
                 try {
-                    const response = await fetch(`/api/petitions/${petitionId}/comments`);
+                    
+                    console.log(jwt)
+                    const response = await fetch(`/api/petitions/${petitionId}/comments/`, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${jwt}`
+                        },
+                    });
                     if (!response.ok) throw new Error("Échec du chargement des commentaires");
                     const data: Comment[] = await response.json();
                     setComments(data);
@@ -77,10 +94,11 @@ export default function DetailPetition() {
         if (!newComment.trim()) return;
 
         try {
-            const response = await fetch(`/api/messagerie/create`, {
+            const response = await fetch(`/api/messagerie/create/`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ petition_id : petitionId ,message: newComment }),
+                headers: { "Content-Type": "application/json",
+                            "Authorization": `Bearer ${jwt}` },
+                body: JSON.stringify({ petition_id : petitionId ,message: newComment, }),
             });
 
             if (!response.ok) throw new Error("Échec de l'ajout du commentaire");

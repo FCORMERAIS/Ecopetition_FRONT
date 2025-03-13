@@ -60,7 +60,9 @@ export default function Header() {
 
     return (
         <header className={styles.header}>
-            <div className={styles.logo}>EcoPetition</div>
+            <Link href="/">
+                <div className={styles.logo}>EcoPetition</div>
+            </Link>
 
             {isAuthenticated === false ? (
                 <nav className={styles.nav}>
