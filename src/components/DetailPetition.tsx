@@ -19,7 +19,6 @@ export default function DetailPetition() {
 
     const searchParams = useSearchParams();
     const petitionId = searchParams.get('id');
-    const jwt = localStorage.getItem("access_token");
     const [petition, setPetition] = useState<Petition | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -27,10 +26,33 @@ export default function DetailPetition() {
     const [newComment, setNewComment] = useState("");
     const [isSigning, setIsSigning] = useState(false);
     const [hasSigned, setHasSigned] = useState(false);
+    const [hasUserSigned, setHasUserSigned] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (petitionId && userId) {
+            const checkUserSignature = async () => {
+                try {
+                    const token = localStorage.getItem("access_token");
+                    const response = await fetch(`/api/user/check_if_has_sign_petition/${petitionId}`, {
+                        method: "GET",
+                        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+                    });
     
+                    if (!response.ok) throw new Error("Échec de la vérification de la signature");
+    
+                    const data = await response.json();
+                    setHasUserSigned(data.has_signed);
+                } catch (err) {
+                    console.error("Erreur lors de la vérification de la signature:", err);
+                    setHasUserSigned(false);
+                }
+            };
+            checkUserSignature();
+        }
+    }, [petitionId, userId]);
+
     // Récupération des données de la pétition
     useEffect(() => {
-        console.log(petitionId)
         if (petitionId) {
             const fetchPetition = async () => {
                 try {
@@ -89,7 +111,8 @@ export default function DetailPetition() {
         if (petitionId) {
             const fetchComments = async () => {
                 try {
-                    console.log(jwt)
+                    const jwt = localStorage.getItem("access_token");
+                    const response = await fetch(`/api/petitions/${petitionId}/comments/`, {
                     const response = await fetch(`/api/petitions/${petitionId}/comments`, {
                         method: "GET",
                         headers: {
@@ -117,6 +140,7 @@ export default function DetailPetition() {
         if (!newComment.trim()) return;
 
         try {
+            const jwt = localStorage.getItem("access_token");
             const response = await fetch(`/api/messagerie/create/`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json",
@@ -142,18 +166,20 @@ export default function DetailPetition() {
 
         try {
             const token = localStorage.getItem("access_token");
-            console.log(token)
-            const response = await fetch(`/api/petitions/${petitionId}/sign`, {
-                method: hasSigned ? "DELETE" : "POST", 
-                headers: { "Content-Type": "application/json","Authorization": `Bearer ${token}`},
-                body: JSON.stringify({ user_id: userId }),
-            });
+            if (hasUserSigned == false){
+                const response = await fetch(`/api/petitions/${petitionId}/sign`, {
+                    method: "POST", 
+                    headers: { "Content-Type": "application/json","Authorization": `Bearer ${token}`},
+                    body: JSON.stringify({ user_id: userId }),
+                });
 
-            if (!response.ok) throw new Error(hasSigned ? "Échec de la suppression de la signature" : "Échec de la signature");
+                if (!response.ok) throw new Error(hasSigned ? "Échec de la suppression de la signature" : "Échec de la signature");
 
-            // Mise à jour de l'état
-            setHasSigned(!hasSigned);
-            setPetition(prev => prev ? { ...prev, signature: prev.signature + (hasSigned ? -1 : 1) } : prev);
+                // Mise à jour de l'état
+                setHasSigned(!hasSigned);
+                setPetition(prev => prev ? { ...prev, signature: prev.signature + (hasSigned ? -1 : 1) } : prev);
+                window.location.reload();
+            }
         } catch (err) {
             console.error("Erreur lors de la gestion de la signature:", err);
         } finally {
@@ -164,7 +190,6 @@ export default function DetailPetition() {
     if (loading) return <p>Chargement...</p>;
     if (error) return <p style={{ color: "red" }}>{error}</p>;
     if (!petition) return <p>Aucune pétition trouvée.</p>;
-
     return (
         <div className={styles.petitionContainer}>
             <h1 className={styles.petitionTitle}>{petition.titre}</h1>
@@ -174,9 +199,9 @@ export default function DetailPetition() {
             <button 
                 className={styles.signButton} 
                 onClick={handleSignPetition} 
-                disabled={isSigning}
+                disabled={hasUserSigned}
             >
-                {"Signer la pétition"}
+                {hasUserSigned ? "Déjà signé" : "Signer la pétition"}
             </button>
 
             {/* Section des commentaires */}
