@@ -20,6 +20,7 @@ export default function DetailPetition() {
     // Récupération des données de la pétition
     useEffect(() => {
         petitionId = searchParams.get('id');
+        console.log(petitionId)
         if (petitionId) {
             const fetchPetition = async () => {
                 try {
