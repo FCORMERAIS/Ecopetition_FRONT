@@ -112,7 +112,6 @@ export default function DetailPetition() {
             const fetchComments = async () => {
                 try {
                     const jwt = localStorage.getItem("access_token");
-                    const response = await fetch(`/api/petitions/${petitionId}/comments/`, {
                     const response = await fetch(`/api/petitions/${petitionId}/comments`, {
                         method: "GET",
                         headers: {
