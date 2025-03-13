@@ -1,25 +1,25 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from "react";
 import { Petition } from "@/modeles/Petition";
 import styles from "../styles/detail.module.css";
 import { Comment } from "@/modeles/Comment";
 
 export default function DetailPetition() {
-    
-    const { id: petitionId } = useParams();
+
+    const searchParams = useSearchParams();
 
     const [petition, setPetition] = useState<Petition | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [comments, setComments] = useState<Comment[]>([]);
     const [newComment, setNewComment] = useState("");
-    console.log(petitionId);
+
     // Récupération des données de la pétition
     useEffect(() => {
+        const petitionId = searchParams.get('id');
         if (petitionId) {
-            console.log("ok " + petitionId);
             const fetchPetition = async () => {
                 try {
                     const response = await fetch(`/api/petitions/${petitionId}`);
