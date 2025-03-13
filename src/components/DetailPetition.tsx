@@ -90,12 +90,14 @@ export default function DetailPetition() {
             const fetchComments = async () => {
                 try {
                     console.log(jwt)
-                    const response = await fetch(`/api/petitions/${petitionId}/comments/`, {
+                    const response = await fetch(`/api/petitions/${petitionId}/comments`, {
                         method: "GET",
                         headers: {
                             "Content-Type": "application/json",
-                            "Authorization": `Bearer ${jwt}`
+                            "Authorization": `Bearer ${jwt}`,
+                            "Accept": "application/json"
                         },
+                        redirect: "follow"
                     });
                     if (!response.ok) throw new Error("Échec du chargement des commentaires");
                     const data: Comment[] = await response.json();
@@ -140,6 +142,7 @@ export default function DetailPetition() {
 
         try {
             const token = localStorage.getItem("access_token");
+            console.log(token)
             const response = await fetch(`/api/petitions/${petitionId}/sign`, {
                 method: hasSigned ? "DELETE" : "POST", 
                 headers: { "Content-Type": "application/json","Authorization": `Bearer ${token}`},
@@ -184,8 +187,8 @@ export default function DetailPetition() {
                 ) : (
                     <ul className={styles.commentList}>
                         {comments.map(comment => (
-                            <li key={comment.id} className={styles.commentItem}>
-                                <p><strong>{comment.auteur}</strong> ({new Date(comment.date).toLocaleDateString()}):</p>
+                            <li key={comment.id} className={styles.commentItem}> 
+                                <p><strong>{comment.auteur}</strong> ({new Date(comment.date_heure).toLocaleDateString()}):</p> 
                                 <p>{comment.message}</p>
                             </li>
                         ))}
