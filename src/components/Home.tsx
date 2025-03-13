@@ -11,23 +11,40 @@ export default function Home() {
 
     useEffect(() => {
         const fetchPetitions = async () => {
-            const newPetitions: Petition[] = [];
-                const response = await fetch("api/petitions/list/paginated?page=1");
-                if (response.ok) {
-                    const data = await response.json();
-                    data.results.forEach((petition : Petition) => {
-                        newPetitions.push({
-                            id: petition.id,
-                            titre: petition.titre,
-                            auteur : petition.auteur,
-                            description: petition.description,
-                            signature: 0,
-                            image_url: petition.image_url
-                        })})
-                }
-            setPetitions(newPetitions);
+            try {
+                const response = await fetch("/api/petitions/list/paginated?page=1");
+                if (!response.ok) throw new Error("Échec du chargement des pétitions");
+    
+                const data = await response.json();
+                const petitionsList: Petition[] = data.results;
+    
+                // Récupérer le nombre de signatures pour chaque pétition
+                const petitionsWithSignatures = await Promise.all(
+                    petitionsList.map(async (petition: Petition) => {
+                        try {
+                            const token = localStorage.getItem("access_token");
+                            const signResponse = await fetch(`/api/petitions/${petition.id}/sign_count`, {
+                                method: "GET",
+                                headers: { "Content-Type": "application/json",
+                                    "Authorization": `Bearer ${token}`},
+                            });
+                            if (!signResponse.ok) throw new Error("Échec de la récupération des signatures");
+    
+                            const signData = await signResponse.json();
+                            return { ...petition, signature: signData.nombre_signatures };
+                        } catch (err) {
+                            console.error(`Erreur lors de la récupération des signatures pour la pétition ${petition.id}:`, err);
+                            return { ...petition, signature: 0 };
+                        }
+                    })
+                );
+    
+                setPetitions(petitionsWithSignatures);
+            } catch (err) {
+                console.error("Erreur lors du chargement des pétitions:", err);
+            }
         };
-
+    
         fetchPetitions();
     }, []);
 
