@@ -65,7 +65,7 @@ export default function DetailPetition() {
                         titre: data.titre,
                         description: data.description,
                         auteur: data.user.pseudo,
-                        signature: /*data.signature*/ 0,
+                        signature: data.signature,
                         image_url: data.image_url
                     }
                     setPetition(petition);
@@ -213,7 +213,7 @@ export default function DetailPetition() {
                     <ul className={styles.commentList}>
                         {comments.map(comment => (
                             <li key={comment.id} className={styles.commentItem}> 
-                                <p><strong>{comment.auteur}</strong> ({new Date(comment.date_heure).toLocaleDateString()}):</p> 
+                                <p><strong>{comment.user_pseudo}</strong> ({new Date(comment.date_heure).toLocaleDateString()}):</p> 
                                 <p>{comment.message}</p>
                             </li>
                         ))}

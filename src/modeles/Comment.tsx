@@ -1,6 +1,6 @@
 export type Comment = {
     id: number;
-    auteur: string;
+    user_pseudo: string;
     message: string;
     date_heure: string;
 }
