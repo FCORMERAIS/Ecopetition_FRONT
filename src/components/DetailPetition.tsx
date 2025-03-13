@@ -15,10 +15,11 @@ export default function DetailPetition() {
     const [error, setError] = useState<string | null>(null);
     const [comments, setComments] = useState<Comment[]>([]);
     const [newComment, setNewComment] = useState("");
-
+    console.log(petitionId);
     // Récupération des données de la pétition
     useEffect(() => {
         if (petitionId) {
+            console.log("ok " + petitionId);
             const fetchPetition = async () => {
                 try {
                     const response = await fetch(`/api/petitions/${petitionId}`);
