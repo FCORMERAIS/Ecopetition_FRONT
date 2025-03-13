@@ -89,7 +89,6 @@ export default function Login() {
                     <button type="submit" className={styles.button}>Se connecter</button>
                 </form>
                 <div className={styles.links}>
-                    <Link href="/forgot-password">Mot de passe oublié ?</Link>
                     <Link href="/signup">Créer un compte</Link>
                 </div>
             </div>
