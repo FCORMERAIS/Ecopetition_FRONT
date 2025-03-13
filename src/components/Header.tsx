@@ -31,7 +31,7 @@ export default function Header() {
                     setIsAuthenticated(true);
                 } else {
                     setIsAuthenticated(false);
-                    localStorage.removeItem("access_token"); // Supprime le token expiré
+                    localStorage.removeItem("access_token");
                 }
             } catch (error) {
                 console.error("Erreur de vérification du token :", error);
@@ -40,7 +40,16 @@ export default function Header() {
         };
 
         checkAuth();
+
+        // 🔥 Écoute l'événement pour mettre à jour l'état quand l'authentification change
+        const handleAuthChange = () => {
+            checkAuth();
+        };
+
+        window.addEventListener("authChange", handleAuthChange);
+        return () => window.removeEventListener("authChange", handleAuthChange);
     }, []);
+
 
     // Fonction pour gérer la déconnexion
     const handleLogout = () => {
