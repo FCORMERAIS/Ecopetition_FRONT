@@ -18,7 +18,7 @@ export default function DetailPetition() {
 
 
     const searchParams = useSearchParams();
-    let petitionId : string | null = ""
+    const petitionId = searchParams.get('id');
     const jwt = localStorage.getItem("access_token");
     const [petition, setPetition] = useState<Petition | null>(null);
     const [loading, setLoading] = useState(true);
@@ -30,7 +30,6 @@ export default function DetailPetition() {
     
     // Récupération des données de la pétition
     useEffect(() => {
-        petitionId = searchParams.get('id');
         console.log(petitionId)
         if (petitionId) {
             const fetchPetition = async () => {
