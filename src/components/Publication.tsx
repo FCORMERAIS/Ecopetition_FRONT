@@ -5,14 +5,13 @@ import { useState } from 'react';
 import { getUserIdFromToken } from "./Auth";
 import styles from '../styles/publication.module.css';
 import backgroundImage from "@/assets/ecopetition.jpeg";
-import { useRouter } from 'next/router';
 
 export default function Publication() {
     const [formData, setFormData] = useState({
         title: '',
         description: ''
     });
-    const router = useRouter();
+
     const userId = getUserIdFromToken();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -45,7 +44,7 @@ export default function Publication() {
             });
 
             if (response.ok) {
-                router.push("/"); 
+                window.location.href = "/";
             } else {
                 throw new Error("Échec de la création de la publication");
             }
