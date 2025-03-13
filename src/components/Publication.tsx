@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { getUserIdFromToken } from "./Auth";
 import styles from '../styles/publication.module.css';
+import backgroundImage from "@/assets/ecopetition.jpeg";
 
 export default function Publication() {
     const [formData, setFormData] = useState({
@@ -54,7 +55,15 @@ export default function Publication() {
     };
 
     return (
-        <div className={styles.page}>
+        <div
+            className={styles.page}
+            style={{
+                backgroundImage: `url(${backgroundImage.src})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundAttachment: "fixed",
+            }}
+        >
             <div className={styles.card}>
                 <h2 className={styles.title}>Créer une publication</h2>
                 <form onSubmit={handleSubmit}>

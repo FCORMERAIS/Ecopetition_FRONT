@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import styles from "../styles/login.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import backgroundImage from "@/assets/ecopetition.jpeg";
 
 export default function Login() {
     const [pseudo, setPseudo] = useState("");
@@ -52,7 +53,15 @@ export default function Login() {
 
 
     return (
-        <div className={styles.page}>
+        <div
+            className={styles.page}
+            style={{
+                backgroundImage: `url(${backgroundImage.src})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundAttachment: "fixed",
+            }}
+        >
             <div className={styles.card}>
                 <h2 className={styles.title}>Connexion</h2>
                 {message && <p className={styles.message}>{message}</p>}
