@@ -38,6 +38,7 @@ export default function DetailPetition() {
             const fetchPetition = async () => {
                 try {
                     const response = await fetch(`/api/petitions/${petitionId}`);
+                    
                     if (!response.ok) throw new Error("Échec du chargement de la pétition");
                     const data: Petition = await response.json();
                     setPetition(data);
@@ -56,13 +57,19 @@ export default function DetailPetition() {
 
     useEffect(() => {
         if (petitionId) {
+            const token = localStorage.getItem("access_token");
+
             const fetchSignaturesCount = async () => {
                 try {
-                    const response = await fetch(`/api/petitions/${petitionId}/sign_count`);
+                    const response = await fetch(`/api/petitions/${petitionId}/sign_count`, {
+                        method: "GET",
+                        headers: { "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`},
+                    });
                     if (!response.ok) throw new Error("Échec de la récupération du nombre de signatures");
     
                     const data = await response.json();
-                    setSignaturesCount(data.count); // Assurez-vous que l'API retourne { count: X }
+                    setSignaturesCount(data.nombre_signatures);
                 } catch (err) {
                     console.error("Erreur lors de la récupération du nombre de signatures:", err);
                 }
@@ -78,6 +85,7 @@ export default function DetailPetition() {
             const fetchComments = async () => {
                 try {
                     const response = await fetch(`/api/petitions/${petitionId}/comments`);
+                    
                     if (!response.ok) throw new Error("Échec du chargement des commentaires");
                     const data: Comment[] = await response.json();
                     setComments(data);
@@ -119,9 +127,10 @@ export default function DetailPetition() {
         setIsSigning(true);
 
         try {
+            const token = localStorage.getItem("access_token");
             const response = await fetch(`/api/petitions/${petitionId}/sign`, {
-                method: "POST", 
-                headers: { "Content-Type": "application/json" },
+                method: hasSigned ? "DELETE" : "POST", 
+                headers: { "Content-Type": "application/json","Authorization": `Bearer ${token}`},
                 body: JSON.stringify({ user_id: userId }),
             });
 
