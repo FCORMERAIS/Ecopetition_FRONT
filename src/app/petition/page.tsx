@@ -3,7 +3,13 @@ import DetailPetition from "@/components/DetailPetition";
 import { Suspense } from "react";
 
 export default function PublicationPage() {
-    <Suspense fallback={<div>Chargement...</div>}>
-    return <DetailPetition />;
-    </Suspense>
+    return(
+        <div>
+
+    <p>bonjour</p>
+        <Suspense fallback={<div>Chargement...</div>}>
+        <DetailPetition />;
+        </Suspense>
+        </div>
+    );
 }
