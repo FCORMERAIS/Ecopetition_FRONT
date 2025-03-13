@@ -6,6 +6,7 @@ import { useState } from 'react';
 import styles from '../styles/signup.module.css';
 import Link from 'next/link';
 import { Eye, EyeOff } from 'lucide-react';
+import backgroundImage from "@/assets/ecopetition.jpeg";
 
 export default function Signup() {
     const [formData, setFormData] = useState({
@@ -71,7 +72,15 @@ export default function Signup() {
     };
 
     return (
-        <div className={styles.page}>
+        <div
+            className={styles.page}
+            style={{
+                backgroundImage: `url(${backgroundImage.src})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundAttachment: "fixed",
+            }}
+        >
             <div className={styles.card}>
                 <h2 className={styles.title}>Inscription</h2>
                 <form onSubmit={handleSubmit}>

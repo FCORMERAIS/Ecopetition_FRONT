@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import backgroundImage from "@/assets/ecopetition.jpeg";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,7 +27,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${geistSans.variable} ${geistMono.variable}`} style={{
+          backgroundImage: `url(${backgroundImage.src})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+      }}>
       <Header />  {/* Le Header s'affiche sur toutes les pages */}
       {children}
       <Footer />  {/* Le Footer s'affiche sur toutes les pages */}

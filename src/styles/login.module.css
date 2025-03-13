@@ -5,7 +5,8 @@
     align-items: center;
     justify-content: center;
     height: 83vh;
-    background-color: #55B76B;
+
+    background-size: cover;
     font-family: 'Lato', sans-serif;
 }
 
