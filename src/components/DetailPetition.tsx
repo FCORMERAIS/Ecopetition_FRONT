@@ -1,14 +1,14 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from "react";
 import { Petition } from "@/modeles/Petition";
 import styles from "../styles/detail.module.css";
 import { Comment } from "@/modeles/Comment";
 
 export default function DetailPetition() {
-    const searchParams = useSearchParams();
-    const petitionId = searchParams.get('id');
+    
+    const { id: petitionId } = useParams();
 
     const [petition, setPetition] = useState<Petition | null>(null);
     const [loading, setLoading] = useState(true);
@@ -51,7 +51,16 @@ export default function DetailPetition() {
         if (petitionId) {
             const fetchComments = async () => {
                 try {
-                    const response = await fetch(`/api/petitions/${petitionId}/comments`);
+                    const jwt = localStorage.getItem("access_token");
+                    
+                    console.log(jwt)
+                    const response = await fetch(`/api/petitions/${petitionId}/comments`, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${jwt}`
+                        },
+                    });
                     if (!response.ok) throw new Error("Échec du chargement des commentaires");
                     const data: Comment[] = await response.json();
                     setComments(data);
