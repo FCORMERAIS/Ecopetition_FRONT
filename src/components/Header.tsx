@@ -53,7 +53,9 @@ export default function Header() {
     if (pathname === "/login" || pathname === "/signup") {
         return (
             <header className={styles.header}>
-                <div className={styles.logo}>EcoPetition</div>
+                <Link href="/">
+                    <div className={styles.logo}>EcoPetition</div>
+                </Link>
             </header>
         );
     }
