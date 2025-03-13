@@ -9,7 +9,8 @@ import { Comment } from "@/modeles/Comment";
 export default function DetailPetition() {
 
     const searchParams = useSearchParams();
-
+    let petitionId : string | null = ""
+    const jwt = localStorage.getItem("access_token");
     const [petition, setPetition] = useState<Petition | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -18,7 +19,7 @@ export default function DetailPetition() {
 
     // Récupération des données de la pétition
     useEffect(() => {
-        const petitionId = searchParams.get('id');
+        petitionId = searchParams.get('id');
         if (petitionId) {
             const fetchPetition = async () => {
                 try {
@@ -52,10 +53,9 @@ export default function DetailPetition() {
         if (petitionId) {
             const fetchComments = async () => {
                 try {
-                    const jwt = localStorage.getItem("access_token");
                     
                     console.log(jwt)
-                    const response = await fetch(`/api/petitions/${petitionId}/comments`, {
+                    const response = await fetch(`/api/petitions/${petitionId}/comments/`, {
                         method: "GET",
                         headers: {
                             "Content-Type": "application/json",
@@ -79,9 +79,10 @@ export default function DetailPetition() {
         if (!newComment.trim()) return;
 
         try {
-            const response = await fetch(`/api/messagerie/create`, {
+            const response = await fetch(`/api/messagerie/create/`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json",
+                            "Authorization": `Bearer ${jwt}` },
                 body: JSON.stringify({ petition_id : petitionId ,message: newComment, }),
             });
 
