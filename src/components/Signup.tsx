@@ -37,14 +37,14 @@ export default function Signup() {
 
     const connexion = async () => {
 
-        const fullname = formData.fullName;
+        const pseudo = formData.fullName;
         const password = formData.password;
         const response = await fetch("/api/user/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ fullname, password }),
+            body: JSON.stringify({ pseudo, password }),
         });
 
         const data = await response.json();
