@@ -4,13 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from "react";
 import { Petition } from "@/modeles/Petition";
 import styles from "../styles/detail.module.css";
-
-interface Comment {
-    id: number;
-    auteur: string;
-    message: string;
-    date: string;
-}
+import { Comment } from "@/modeles/Comment";
 
 export default function DetailPetition() {
     const searchParams = useSearchParams();
@@ -29,8 +23,17 @@ export default function DetailPetition() {
                 try {
                     const response = await fetch(`/api/petitions/${petitionId}`);
                     if (!response.ok) throw new Error("Échec du chargement de la pétition");
-                    const data: Petition = await response.json();
-                    setPetition(data);
+                    const data = await response.json();
+                    const petition : Petition = {
+                        id: data.id,
+                        titre: data.titre,
+                        description: data.description,
+                        auteur: data.user.pseudo,
+                        signature: /*data.signature*/ 0,
+                        image_url: data.image_url
+                    }
+                    console.log(data)
+                    setPetition(petition);
                 } catch (err) {
                     setError("Impossible de récupérer la pétition.");
                 } finally {
@@ -52,6 +55,7 @@ export default function DetailPetition() {
                     const response = await fetch(`/api/petitions/${petitionId}/comments`);
                     if (!response.ok) throw new Error("Échec du chargement des commentaires");
                     const data: Comment[] = await response.json();
+                    
                     setComments(data);
                 } catch (err) {
                     console.error("Erreur lors de la récupération des commentaires:", err);
