@@ -35,6 +35,28 @@ export default function Signup() {
         }));
     };
 
+    const connexion = async () => {
+
+        const fullname = formData.fullName;
+        const password = formData.password;
+        const response = await fetch("/api/user/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ fullname, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            localStorage.setItem("access_token", data.access_token);
+            // 🔥 Envoi d'un événement personnalisé pour notifier le Header
+            window.dispatchEvent(new Event("authChange"));
+            window.location.href = "/";
+        }
+    }
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
@@ -62,7 +84,7 @@ export default function Signup() {
                     // Redirect or show success message
                 } else {
                     console.error('Erreur lors de l\'inscription:', data.message);
-                    // Show error message
+                    if (data.message === "Compte créé avec succès") connexion();
                 }
             })
             .catch((error) => {
