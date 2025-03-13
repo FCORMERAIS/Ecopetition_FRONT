@@ -2,7 +2,7 @@ import { useRouter } from "next/navigation";
 import { Petition } from "@/modeles/Petition";
 import React from "react";
 import styles from "../styles/card.module.css";
-import image from "../asset/ecopetition.jpeg";
+import image from "../assets/ecopetitionimg.jpeg";
 interface CardProps {
     petition: Petition;
 } 
