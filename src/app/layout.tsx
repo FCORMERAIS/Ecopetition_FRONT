@@ -29,7 +29,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
       <Header />  {/* Le Header s'affiche sur toutes les pages */}
       {children}
-      <Footer />  {/* ✅ Le Footer est maintenant global */}
+      <Footer />  {/* Le Footer s'affiche sur toutes les pages */}
       </body>
     </html>
   );

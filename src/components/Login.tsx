@@ -17,7 +17,6 @@ export default function Login() {
             document.body.classList.remove(styles.noScroll);
         };
     }, []);
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setMessage("");
@@ -36,7 +35,11 @@ export default function Login() {
             if (response.ok) {
                 localStorage.setItem("access_token", data.access_token);
                 setMessage("Connexion réussie !");
-                router.push("/"); // Redirige vers l'accueil après connexion
+
+                // 🔥 Envoi d'un événement personnalisé pour notifier le Header
+                window.dispatchEvent(new Event("authChange"));
+
+                router.push("/"); // Redirige vers l'accueil
             } else {
                 setMessage(data.error || "Échec de la connexion. Vérifiez vos identifiants.");
             }
@@ -45,6 +48,8 @@ export default function Login() {
             setMessage("Une erreur est survenue. Veuillez réessayer.");
         }
     };
+
+
 
     return (
         <div className={styles.page}>
