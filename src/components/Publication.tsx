@@ -2,6 +2,7 @@
 'use client';
 
 import { useState } from 'react';
+import { getUserIdFromToken } from "./Auth";
 import styles from '../styles/publication.module.css';
 
 export default function Publication() {
@@ -10,17 +11,46 @@ export default function Publication() {
         description: ''
     });
 
+    const jwt = localStorage.getItem("access_token");
+    const userId = getUserIdFromToken();
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
+        console.log("change")
         setFormData((prev) => ({
             ...prev,
             [name]: value,
         }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Publication:', formData);
+        console.log('Publication:', formData);    
+        try {
+            const response = await fetch(`/api/petitions/create`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwt}`
+                },
+                body: JSON.stringify({
+                    titre: formData.title,
+                    description: formData.description,
+                    date_creation: new Date().toISOString().split('T')[0],
+                    date_cloture: new Date().toISOString().split('T')[0],
+                    user_id: userId
+                }),
+            });
+
+            if (response.ok) {
+                console.log("ok")
+                window.location.href = "/";
+            } else {
+                throw new Error("Échec de la création de la publication");
+            }
+        } catch (err) {
+            console.error("Échec de la création de la publication:", err);
+        }
     };
 
     return (
