@@ -43,7 +43,6 @@ export default function Publication() {
             });
 
             if (response.ok) {
-                console.log("ok")
                 window.location.href = "/";
             } else {
                 throw new Error("Échec de la création de la publication");
